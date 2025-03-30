@@ -1,7 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
+#if __has_include(<atcoder/all>)
 #include <atcoder/all>
 using namespace atcoder;
+#endif
 struct Init { Init() { ios::sync_with_stdio(0); cin.tie(0); } }init;
 using ll = long long;
 using ull = unsigned long long;
@@ -31,6 +33,13 @@ const int mod = 998244353;
 
 
 int main() {
-  
+  string d;
+  cin >> d;
+  vc news = {'N', 'E', 'W', 'S'};
+  rep(i, d.size()) rep(j, 4) if(d[i] == news[j]) {
+    d[i] = news[3-j];
+    break;
+  }
+  cout << d << endl;
   return 0;
 }

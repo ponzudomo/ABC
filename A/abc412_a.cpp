@@ -1,10 +1,18 @@
 /**
  * @file
+ * ABC412_A Task Failed Successfully
+ * https://atcoder.jp/contests/abc412/tasks/abc412_a
+ * 
+ * これから解く
  * 
  * @brief
+ * 四則演算
  *
  * @note
  * Problem Statement:
+ * - i(1 <= i <= N)日目それぞれに対して、A_i個のタスクをこなすことを目標としていた
+ * - 実際にはB_i個のタスクをこなした
+ * - 目標を達成できた日数を求める
  * 
  * Constraints:
  * 

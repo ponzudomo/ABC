@@ -1,7 +1,12 @@
 /**
  * @file
+ * ABC413_A Content Too Large 
+ * https://atcoder.jp/contests/abc413/tasks/abc413_a
+ * 
+ * コンテスト中にAC済
  * 
  * @brief
+ * 四則演算
  *
  * @note
  * Problem Statement:
@@ -19,10 +24,6 @@
 // include
 #include <bits/stdc++.h>
 using namespace std;
-#include <atcoder/all>
-using namespace atcoder;
-#include <boost/dynamic_bitset.hpp>
-using namespace boost;
 
 // define
 #define fore(x, a) for (auto &x : a)
@@ -48,5 +49,17 @@ struct Init { Init() { ios::sync_with_stdio(0); cin.tie(0); } }init;
 
 
 int main() {
+  int n, m, sum = 0;
+  cin >> n >> m;
+  rep(i,n) {
+    int a;
+    cin >> a;
+    sum += a;
+    if(sum > m) {
+      cout << "No" << endl;
+      return 0;
+    }
+  }
+  cout << "Yes" << endl;
   return 0;
 }

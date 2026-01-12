@@ -1,7 +1,7 @@
 /**
  * @file
- * ABC_(番号) (問題番号) (タイトル)
- * (リンク)
+ * ABC(番号)_(問題番号) (タイトル)
+ * https://atcoder.jp/contests/abc000/tasks/abc000_x
  * 
  * (状況)
  * 

@@ -1,33 +1,35 @@
 /**
  * @file
- * ABC(番号)_(問題番号) (タイトル)
- * https://atcoder.jp/contests/abc000/tasks/abc000_x
+ * ABC439_C 2026
+ * https://atcoder.jp/contests/abc439/tasks/abc439_c
  * 
- * (状況)
+ * n以下の平方数の和を列挙
+ * ただしnをx^2+y^2とするとき、xとyが一意に定まる
  * 
  * @brief
- * (主に使ったアルゴリズム)
+ * setで管理
  *
  * @note
- * Problem Statement:
- * 
  * Constraints:
+ * X < Y
+ * 1 <= N <= 10^7
  * 
  * Input:
+ * N
  * 
  * Output:
+ * k
+ * a_1 a_2 ... a_k
  * 
  * @todo
+ * まずは第一言語であるC++で解いて、勉強がてらKotlinに翻訳
+ * このファイルはAC出た
  *
  */
 
 // include
 #include <bits/stdc++.h>
 using namespace std;
-#include <atcoder/all>
-using namespace atcoder;
-#include <boost/dynamic_bitset.hpp>
-using namespace boost;
 
 // define
 #define fore(x, a) for (auto &x : a)
@@ -53,5 +55,32 @@ struct Init { Init() { ios::sync_with_stdio(0); cin.tie(0); } }init;
 
 
 int main() {
+  int n;
+  cin >> n;
+  vector<int> seen(n+1, 0);
+
+  int limit = (int)sqrt(n);
+  int x = 1, y = 2;
+  while(y <= limit) {
+    x = 1;
+    while(x < y) {
+      int val = x*x + y*y;
+      if(val > n) break;
+      seen[val]++;
+      x++;
+    }
+    y++;
+  }
+
+  vector<int> ans;
+  rep(i, n+1) {
+    if(seen[i] == 1) ans.push_back(i);
+  }
+
+  cout << ans.size() << endl;
+  rep(i, ans.size()) {
+    cout << ans[i] << " \n"[i==ans.size()-1];
+  }
+
   return 0;
 }

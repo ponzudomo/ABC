@@ -3,10 +3,7 @@
  * ABC453_C (タイトル)
  * https://atcoder.jp/contests/abc453/tasks/abc453_c
  * 
- * 貪欲法で解いて失敗: https://atcoder.jp/contests/abc453/submissions/74952059
- * 解説をちょっとだけ読んだ
- * 40 50 90 1 1 1 みたいなテストケースの時に、貪欲法だと負に行きすぎて3回しか通過できないが、負負正から始めると4回通過できるっぽい
- * Cがせいぜい20以下なので全探索しても間に合うっぽい
+ * 解説を読んでAC
  * 
  * @brief
  * 与えられた距離だけ前進または後進を繰り返し、原点をできるだけ通過したい
@@ -58,24 +55,57 @@ const ll infl = 1LL << 60;
 const int mod = 998244353;
 struct Init { Init() { ios::sync_with_stdio(0); cin.tie(0); } }init;
 
+/// 全探索中の各移動パターンについて、原点を超過した回数を返す
+ll calc(int n, vll &dists, bitset<20> &patterns) {
+  /**
+   * 小数を扱いたくないので、現在地を常に-0.5して扱う (=0始まり)
+   * -0.5地点を通過した回数について考えることになるので、
+   *  - prevからcurrentの移動で正負が変わるパターン -> prev*current < 0
+   *  - prevとcurrentのうち、どちらかが0でもう一方が-1以下のパターン -> prev*current==0 && prev+current<0
+   * のいずれかの条件を満たしたときにカウントを増やす
+   * 
+   * オーバーフロー注意！！！！(1ミス)
+   */
+
+  /// @brief 現在地 常に-0.5して扱う
+  ll current = 0;
+
+  /// @brief 原点(-0.5とする)を通過した回数
+  ll ret = 0;
+
+  rep (i, n) {
+    ll prev = current;
+    current += dists[i] * (patterns[i] ? 1 : -1);
+
+    /// オーバーフロー対策の圧縮
+    int prev_sign = (prev > 0) - (prev < 0);
+    int current_sign = (current > 0) - (current < 0);
+
+    if(prev_sign * current_sign < 0 || (prev_sign * current_sign == 0 && prev_sign + current_sign < 0)) ret++;
+  }
+  return ret;
+}
 
 int main() {
+  /// @brief 移動回数
   int n;
   cin >> n;
-  vll l(n);
-  rep(i, n) cin >> l[i];
-  ll current = 0, ans = 0;
-  rep (i, n) {
-    ll dist;
-    if(current < 0) dist = -current-1;
-    else dist = current;
-    if(dist < l[i]) ans++;
 
-    cerr << "current: " << current;
-    if(current < 0) current += l[i];
-    else current -= l[i];
-    cerr << " -> " << current << ", l[i]: " << l[i] << ", ans: " << ans << endl;
+  /// @brief 各移動の距離一覧
+  vll dists(n);
+  rep(i, n) cin >> dists[i];
+
+  /// @brief 探索結果の最大値を常に保存
+  ll ans = 0;
+
+  rep(i, (1 << n)) {
+    /// @brief 各移動の正負のパターンを表すビットセット
+    bitset<20> pattern(i);
+    ll ret = calc(n, dists, pattern);
+    ans = max(ans, ret);
+    cerr << "pattern: " << pattern << ", ret: " << ret << endl;
   }
+
   cout << ans << endl;
   return 0;
 }
